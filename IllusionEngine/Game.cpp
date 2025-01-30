@@ -287,7 +287,15 @@ bool Game::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer)
 	if (opengl_available) {
 		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // OpenGLを優先的に使用
 		*_mRenderer = SDL_CreateRenderer(_mWindow, "opengl");
-		SDL_Log("Using OpenGL as the render driver.");
+		
+
+		if (!*_mRenderer) {
+			SDL_Log("OpenGL renderer creation failed: %s", SDL_GetError());
+		}
+		else {
+			SDL_Log("Using OpenGL as the render driver.");
+		}
+		
 	}
 	else {
 		*_mRenderer = SDL_CreateRenderer(_mWindow, NULL);
@@ -298,10 +306,10 @@ bool Game::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer)
 		SDL_Log("SDL Renderer create failed: %s", SDL_GetError());
 		return false;
 	}
-
-	const char* selected_driver = SDL_GetRenderDriver(0);
-	if (selected_driver) {
-		SDL_Log("Selected Render Driver: %s", selected_driver);
+	const char* info = SDL_GetRendererName(*_mRenderer);
+	if (info != NULL) 
+	{
+		SDL_Log("Selected Render Driver: %s", info);	
 	}
 
 	return true;
