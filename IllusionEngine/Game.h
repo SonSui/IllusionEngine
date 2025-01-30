@@ -23,6 +23,9 @@ private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
+	// レンダ初期化
+	bool InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer);
+
 
 	// ゲームのウィンド
 	SDL_Window* mWindow;

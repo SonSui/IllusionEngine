@@ -1,4 +1,4 @@
-#include "Game.h"
+ï»¿#include "Game.h"
 #include "cmath"
 #include "random"
 #define TICKS_PASSED(a, b) ((Sint64)((a) - (b)) >= 0)
@@ -12,15 +12,7 @@ Game::Game()
 	, mIsRunning(true)
 	, mPaddleDir(0)
 {
-	mPaddlePos.x = 10.0f;
-	mPaddlePos.y = 768.0f / 2.0f;
-	mPaddle2Pos.x = 1024.0f - 10.0f;
-	mPaddle2Pos.y = 768.0f / 2.0f;
-
-	mBallPos.x = 1024.0f / 2.0f;
-	mBallPos.y = 768.0f / 2.0f;
-	mBallVel.x = -200.0f;
-	mBallVel.y = 235.0f;
+	
 }
 bool Game::Initialize()
 {
@@ -31,12 +23,11 @@ bool Game::Initialize()
 		return false;
 	}
 	
-	
 	mWindow = SDL_CreateWindow(
-		"Illusion Engine", // ƒ^ƒCƒgƒ‹
-		1024,	// •
-		768,	// ‚‚³
-		0		// ƒtƒ‰ƒO
+		"Illusion Engine", // ã‚¿ã‚¤ãƒˆãƒ«
+		1024,	// å¹…
+		768,	// é«˜ã•
+		0		// ãƒ•ãƒ©ã‚°
 	);
 
 	if (!mWindow)
@@ -44,16 +35,19 @@ bool Game::Initialize()
 		SDL_Log("SDL Window create failed : %s", SDL_GetError());
 		return false;
 	}
-	
-	mRenderer = SDL_CreateRenderer(mWindow,NULL);
 
-	if(!mRenderer)
+	
+	if (InitializeRenderer(mWindow, &mRenderer) == false)
 	{
-		SDL_Log("SDL Render create failed : %s", SDL_GetError());
 		return false;
 	}
 
 	mTexture = IMG_LoadTexture(mRenderer, "Background.png");
+
+	if (!mTexture)
+	{
+		SDL_Log("SDL Texture create texture failed : %s", SDL_GetError());
+	}
 
 	mPaddlePos.x = 10.0f;
 	mPaddlePos.y = 768.0f / 2.0f;
@@ -72,6 +66,7 @@ void Game:: Shutdown()
 {
 	SDL_DestroyWindow(mWindow);
 	SDL_DestroyRenderer(mRenderer);
+	SDL_DestroyTexture(mTexture);
 	SDL_Quit();
 }
 
@@ -83,6 +78,7 @@ void Game::RunLoop()
 		UpdateGame();
 		GenerateOutput();
 	}
+	
 }
 
 void Game::ProcessInput()
@@ -127,17 +123,18 @@ void Game::ProcessInput()
 }
 void Game::UpdateGame()
 {
-	while (!TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));//16ms‚ğ‘Ò‚Â
+	
+	while (!TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));//16msã‚’å¾…ã¤
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 
-	// deltaTimeÅ‘å’l§ŒÀ
+	// deltaTimeæœ€å¤§å€¤åˆ¶é™
 	if (deltaTime > 0.05f)
 	{
 		deltaTime = 0.05f;
 	}
 	mTicksCount = SDL_GetTicks();
 
-	// player1@ˆÚ“®ˆ—
+	// player1ã€€ç§»å‹•å‡¦ç†
 	if (mPaddleDir != 0)
 	{
 		mPaddlePos.y += mPaddleDir * moveSpeed * deltaTime;
@@ -145,7 +142,7 @@ void Game::UpdateGame()
 		else if (mPaddlePos.y > (768.0f - paddleH / 2.0f - thickness))mPaddlePos.y = (768.0f - paddleH / 2.0f - thickness);
 	}
 
-	// player2@ˆÚ“®ˆ—
+	// player2ã€€ç§»å‹•å‡¦ç†
 	if (mPaddle2Dir != 0)
 	{
 		mPaddle2Pos.y += mPaddle2Dir * moveSpeed * deltaTime;
@@ -153,16 +150,17 @@ void Game::UpdateGame()
 		else if (mPaddle2Pos.y > (768.0f - paddleH / 2.0f - thickness))mPaddle2Pos.y = (768.0f - paddleH / 2.0f - thickness);
 	}
 
-	// ‹Ê‚ÌˆÚ“®
+	// ç‰ã®ç§»å‹•
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
 
-	// •Ç‚Ô‚Â‚©‚éˆ—                                       
+	// å£ã¶ã¤ã‹ã‚‹å‡¦ç†                                       
 	if ((mBallPos.y <= thickness && mBallVel.y < 0.0f) || (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f))
 	{
 		mBallVel.y *= -1;
 	}
 
+	// ç”»é¢ã‹ã‚‰æ¶ˆãˆãŸã‚‰ã€é€†æ–¹å‘ã«ãƒ©ãƒ³ãƒ€ãƒ é€Ÿåº¦ã§å†ç™ºå°„
 	if (mBallPos.x < -10.0f || mBallPos.x > 1034.0f)
 	{
 		mBallPos.x = 1024.0f / 2.0f;
@@ -182,10 +180,9 @@ void Game::UpdateGame()
 		else mBallVel.y = -1.0f * vy;
 	}
 
+	// ç‰ãŒå¾ã€…ã«é€Ÿããªã‚‹
 
-
-	
-	// player1 Õ“Ë”»’è
+	// player1 è¡çªåˆ¤å®š
 	float diff_player1 = fabs(mPaddlePos.y - mBallPos.y);
 
 	if (diff_player1 <= paddleH / 2.0f &&
@@ -196,7 +193,7 @@ void Game::UpdateGame()
 		mBallVel.x *= -1.1f;
 	}
 
-	// player2@Õ“Ë”»’è
+	// player2ã€€è¡çªåˆ¤å®š
 	float diff_player2 = fabs(mPaddle2Pos.y - mBallPos.y);
 	if (diff_player2 <= paddleH / 2.0f &&
 		mBallPos.x >= 999.0f && mBallPos.x <= 1019.0f &&
@@ -214,15 +211,15 @@ void Game::UpdateGame()
 }
 void Game::GenerateOutput()
 {
-	// ”wŒi•`‰æ
+	// èƒŒæ™¯æç”»
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
 	SDL_RenderClear(mRenderer);
 
-	SDL_FRect dst = { 0,0,1024,768 };
+	SDL_FRect draw = { 0,0,1024,768 };
 
-	SDL_RenderTexture(mRenderer, mTexture, NULL, &dst);
+	SDL_RenderTexture(mRenderer, mTexture, NULL, &draw);
 	
-	//@ã‚Æ‰º‚Ì•Ç
+	//ã€€ä¸Šã¨ä¸‹ã®å£
 	SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 255);
 	SDL_FRect wall
 	{
@@ -232,9 +229,9 @@ void Game::GenerateOutput()
 	wall.y = 768 - thickness;
 	SDL_RenderFillRect(mRenderer, &wall);
 
-	//@‹Ê
+	//ã€€ç‰
 	SDL_FRect ball{
-		static_cast<int>(mBallPos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
+		static_cast<int>(mBallPos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
 		static_cast<int>(mBallPos.y - thickness / 2),
 		thickness,
 		thickness
@@ -242,18 +239,18 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 0, 255);
 	SDL_RenderFillRect(mRenderer, &ball);
 
-	// ƒvƒŒƒCƒ„[‚P
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼‘
 	SDL_FRect paddle{
-		static_cast<int>(mPaddlePos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
+		static_cast<int>(mPaddlePos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
 		static_cast<int>(mPaddlePos.y - paddleH / 2),
 		thickness,
 		(int)paddleH
 	};
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(mRenderer, &paddle);
-	//ƒvƒŒƒCƒ„[‚Q
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼’
 	SDL_FRect paddle2{
-		static_cast<int>(mPaddle2Pos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
+		static_cast<int>(mPaddle2Pos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
 		static_cast<int>(mPaddle2Pos.y - paddleH / 2),
 		thickness,
 		(int)paddleH
@@ -266,3 +263,47 @@ void Game::GenerateOutput()
 	SDL_RenderPresent(mRenderer);
 
 }
+bool Game::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer)
+{
+	int numDrivers = SDL_GetNumRenderDrivers();
+	SDL_Log("Number of Render Drivers: %d\n", numDrivers);
+
+	bool opengl_available = false;
+
+	// å…¨ã¦ã®ãƒ¬ãƒ³ãƒ€ã‚’æ¢ã™
+	for (int i = 0; i < numDrivers; ++i) {
+		const char* driverName = SDL_GetRenderDriver(i);
+		if (driverName) {
+			SDL_Log("Driver[%d]: %s", i, driverName);
+			if (strcmp(driverName, "opengl") == 0) {
+				opengl_available = true;  // OpenGLã‚’ä½¿ç”¨äºˆå®š
+			}
+		}
+		else {
+			SDL_Log("Error: Cannot get driver name [%d]: %s", i, SDL_GetError());
+		}
+	}
+
+	if (opengl_available) {
+		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // OpenGLã‚’å„ªå…ˆçš„ã«ä½¿ç”¨
+		*_mRenderer = SDL_CreateRenderer(_mWindow, "opengl");
+		SDL_Log("Using OpenGL as the render driver.");
+	}
+	else {
+		*_mRenderer = SDL_CreateRenderer(_mWindow, NULL);
+		SDL_Log("Using SDL3 default render driver.");
+	}
+
+	if (!*_mRenderer) {
+		SDL_Log("SDL Renderer create failed: %s", SDL_GetError());
+		return false;
+	}
+
+	const char* selected_driver = SDL_GetRenderDriver(0);
+	if (selected_driver) {
+		SDL_Log("Selected Render Driver: %s", selected_driver);
+	}
+
+	return true;
+}
+
