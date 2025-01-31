@@ -138,12 +138,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Game01Pong.h" />
     <ClInclude Include="IllusionEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game01Pong.cpp" />
     <ClCompile Include="IllusionEngine.cpp" />
     <ClCompile Include="main.cpp" />
