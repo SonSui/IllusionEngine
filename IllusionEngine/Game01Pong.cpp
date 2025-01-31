@@ -1,46 +1,12 @@
-ï»¿#include "Game.h"
-
+#include "Game01Pong.h"
 
 const int thickness = 15;
 const float paddleH = 100.0f;
 const float moveSpeed = 300.0f;
-Game::Game()
-	:mWindow(nullptr)
-	, mRenderer(nullptr)
-	, mTicksCount(0)
-	, mIsRunning(true)
-	, mPaddleDir(0)
+
+void Game01Pong::Initialize()
 {
 	
-}
-bool Game::Initialize()
-{
-	bool sdlResult = SDL_Init(SDL_INIT_VIDEO);
-	if (!sdlResult)
-	{
-		SDL_Log("SDL initialize failed : %s",SDL_GetError());
-		return false;
-	}
-	
-	mWindow = SDL_CreateWindow(
-		"Illusion Engine", // ã‚¿ã‚¤ãƒˆãƒ«
-		1024,	// å¹…
-		768,	// é«˜ã•
-		0		// ãƒ•ãƒ©ã‚°
-	);
-
-	if (!mWindow)
-	{
-		SDL_Log("SDL Window create failed : %s", SDL_GetError());
-		return false;
-	}
-
-	
-	if (InitializeRenderer(mWindow, &mRenderer) == false)
-	{
-		return false;
-	}
-
 	mTexture = IMG_LoadTexture(mRenderer, "Background.png");
 
 	if (!mTexture)
@@ -58,29 +24,12 @@ bool Game::Initialize()
 	mBallVel.x = -200.0f;
 	mBallVel.y = 235.0f;
 
-
-	return true;
-}
-void Game:: Shutdown()
-{
-	SDL_DestroyWindow(mWindow);
-	SDL_DestroyRenderer(mRenderer);
-	SDL_DestroyTexture(mTexture);
-	SDL_Quit();
 }
 
-void Game::RunLoop()
-{
-	while (mIsRunning)
-	{
-		ProcessInput();
-		UpdateGame();
-		GenerateOutput();
-	}
-	
-}
 
-void Game::ProcessInput()
+
+
+void Game01Pong::ProcessInput()
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
@@ -115,26 +64,18 @@ void Game::ProcessInput()
 	if (state[SDL_SCANCODE_DOWN])
 	{
 		mPaddle2Dir += 1;
-		
+
 	}
 
 
 
 }
-void Game::UpdateGame()
+void Game01Pong::Update()
 {
+
 	
-	while (!TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));//16msã‚’å¾…ã¤
-	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 
-	// deltaTimeæœ€å¤§å€¤åˆ¶é™
-	if (deltaTime > 0.05f)
-	{
-		deltaTime = 0.05f;
-	}
-	mTicksCount = SDL_GetTicks();
-
-	// player1ã€€ç§»å‹•å‡¦ç†
+	// player1@ˆÚ“®ˆ—
 	if (mPaddleDir != 0)
 	{
 		mPaddlePos.y += mPaddleDir * moveSpeed * deltaTime;
@@ -142,7 +83,7 @@ void Game::UpdateGame()
 		else if (mPaddlePos.y > (768.0f - paddleH / 2.0f - thickness))mPaddlePos.y = (768.0f - paddleH / 2.0f - thickness);
 	}
 
-	// player2ã€€ç§»å‹•å‡¦ç†
+	// player2@ˆÚ“®ˆ—
 	if (mPaddle2Dir != 0)
 	{
 		mPaddle2Pos.y += mPaddle2Dir * moveSpeed * deltaTime;
@@ -150,39 +91,39 @@ void Game::UpdateGame()
 		else if (mPaddle2Pos.y > (768.0f - paddleH / 2.0f - thickness))mPaddle2Pos.y = (768.0f - paddleH / 2.0f - thickness);
 	}
 
-	// ç‰ã®ç§»å‹•
+	// ‹Ê‚ÌˆÚ“®
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
 
-	// å£ã¶ã¤ã‹ã‚‹å‡¦ç†                                       
+	// •Ç‚Ô‚Â‚©‚éˆ—                                       
 	if ((mBallPos.y <= thickness && mBallVel.y < 0.0f) || (mBallPos.y >= 768 - thickness && mBallVel.y > 0.0f))
 	{
 		mBallVel.y *= -1;
 	}
 
-	// ç”»é¢ã‹ã‚‰æ¶ˆãˆãŸã‚‰ã€é€†æ–¹å‘ã«ãƒ©ãƒ³ãƒ€ãƒ é€Ÿåº¦ã§å†ç™ºå°„
+	// ‰æ–Ê‚©‚çÁ‚¦‚½‚çA‹t•ûŒü‚Éƒ‰ƒ“ƒ_ƒ€‘¬“x‚ÅÄ”­Ë
 	if (mBallPos.x < -10.0f || mBallPos.x > 1034.0f)
 	{
 		mBallPos.x = 1024.0f / 2.0f;
 		mBallPos.y = 768.0f / 2.0f;
-		std::random_device rd;  
-		std::mt19937 gen(rd()); 
+		std::random_device rd;
+		std::mt19937 gen(rd());
 
 		std::uniform_int_distribution<int> dist(150, 300);
 
 		int vx = dist(gen);
 		int vy = dist(gen);
 
-		
+
 		if (mBallVel.x > 0)mBallVel.x = -1.0f * vx;
 		else mBallVel.x = 1.0f * vx;
 		if (mBallVel.y > 0)mBallVel.y = -1.0f * vy;
 		else mBallVel.y = -1.0f * vy;
 	}
 
-	// ç‰ãŒå¾ã€…ã«é€Ÿããªã‚‹
+	// ‹Ê‚ª™X‚É‘¬‚­‚È‚é
 
-	// player1 è¡çªåˆ¤å®š
+	// player1 Õ“Ë”»’è
 	float diff_player1 = fabs(mPaddlePos.y - mBallPos.y);
 
 	if (diff_player1 <= paddleH / 2.0f &&
@@ -195,7 +136,7 @@ void Game::UpdateGame()
 		SDL_Log(mBallVel.toString());
 	}
 
-	// player2ã€€è¡çªåˆ¤å®š
+	// player2@Õ“Ë”»’è
 	float diff_player2 = fabs(mPaddle2Pos.y - mBallPos.y);
 	if (diff_player2 <= paddleH / 2.0f &&
 		mBallPos.x >= 999.0f && mBallPos.x <= 1019.0f &&
@@ -211,19 +152,19 @@ void Game::UpdateGame()
 
 
 
-	
+
 }
-void Game::GenerateOutput()
+void Game01Pong::GenerateOutput()
 {
-	// èƒŒæ™¯æç”»
+	// ”wŒi•`‰æ
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
 	SDL_RenderClear(mRenderer);
 
 	SDL_FRect draw = { 0,0,1024,768 };
 
 	SDL_RenderTexture(mRenderer, mTexture, NULL, &draw);
-	
-	//ã€€ä¸Šã¨ä¸‹ã®å£
+
+	//@ã‚Æ‰º‚Ì•Ç
 	SDL_SetRenderDrawColor(mRenderer, 0, 255, 0, 255);
 	SDL_FRect wall
 	{
@@ -233,9 +174,9 @@ void Game::GenerateOutput()
 	wall.y = 768 - thickness;
 	SDL_RenderFillRect(mRenderer, &wall);
 
-	//ã€€ç‰
+	//@‹Ê
 	SDL_FRect ball{
-		static_cast<int>(mBallPos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
+		static_cast<int>(mBallPos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
 		static_cast<int>(mBallPos.y - thickness / 2),
 		thickness,
 		thickness
@@ -243,18 +184,18 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 0, 255);
 	SDL_RenderFillRect(mRenderer, &ball);
 
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼‘
+	// ƒvƒŒƒCƒ„[‚P
 	SDL_FRect paddle{
-		static_cast<int>(mPaddlePos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
+		static_cast<int>(mPaddlePos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
 		static_cast<int>(mPaddlePos.y - paddleH / 2),
 		thickness,
 		(int)paddleH
 	};
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(mRenderer, &paddle);
-	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼’
+	//ƒvƒŒƒCƒ„[‚Q
 	SDL_FRect paddle2{
-		static_cast<int>(mPaddle2Pos.x - thickness / 2), //åº§æ¨™ã‚’ä¸­å¿ƒã«ã—ã¦ã€floatã‚’intã«å¤‰æ›ã—
+		static_cast<int>(mPaddle2Pos.x - thickness / 2), //À•W‚ğ’†S‚É‚µ‚ÄAfloat‚ğint‚É•ÏŠ·‚µ
 		static_cast<int>(mPaddle2Pos.y - paddleH / 2),
 		thickness,
 		(int)paddleH
@@ -262,57 +203,10 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(mRenderer, &paddle2);
 
-
-
 	SDL_RenderPresent(mRenderer);
 
 }
-bool Game::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer)
+void Game01Pong::Finalize()
 {
-	int numDrivers = SDL_GetNumRenderDrivers();
-	SDL_Log("Number of Render Drivers: %d\n", numDrivers);
-
-	bool opengl_available = false;
-
-	// å…¨ã¦ã®ãƒ¬ãƒ³ãƒ€ã‚’æ¢ã™
-	for (int i = 0; i < numDrivers; ++i) {
-		const char* driverName = SDL_GetRenderDriver(i);
-		if (driverName) {
-			SDL_Log("Driver[%d]: %s", i, driverName);
-			if (strcmp(driverName, "opengl") == 0) {
-				opengl_available = true;  // OpenGLã‚’ä½¿ç”¨äºˆå®š
-			}
-		}
-		else {
-			SDL_Log("Error: Cannot get driver name [%d]: %s", i, SDL_GetError());
-		}
-	}
-
-	if (opengl_available) {
-		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // OpenGLã‚’å„ªå…ˆçš„ã«ä½¿ç”¨
-		*_mRenderer = SDL_CreateRenderer(_mWindow, "opengl");
-		
-
-		if (!*_mRenderer) {
-			SDL_Log("OpenGL renderer create failed: %s", SDL_GetError());
-		}
-		
-	}
-	else {
-		*_mRenderer = SDL_CreateRenderer(_mWindow, NULL);
-		SDL_Log("Using SDL3 default render driver.");
-	}
-
-	if (!*_mRenderer) {
-		SDL_Log("SDL Default Renderer create failed: %s", SDL_GetError());
-		return false;
-	}
-	const char* info = SDL_GetRendererName(*_mRenderer);
-	if (info != NULL) 
-	{
-		SDL_Log("Selected Render Driver: %s", info);	
-	}
-
-	return true;
+	//SDL_DestroyTexture(mTexture);
 }
-
