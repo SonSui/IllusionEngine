@@ -1,11 +1,5 @@
 #pragma once
-#include "SDL3/SDL.h"
-#include "SDL3_image/SDL_image.h"
-struct Vector2
-{
-	float x;
-	float y;
-};
+#include "IllusionEngine.h"
 
 // Game class
 class Game
