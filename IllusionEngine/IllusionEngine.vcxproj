@@ -138,11 +138,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Game01Pong.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IllusionEngine.h" />
+    <ClInclude Include="IMath.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game01Pong.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IllusionEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

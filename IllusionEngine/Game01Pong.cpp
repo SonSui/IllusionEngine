@@ -31,42 +31,27 @@ void Game01Pong::Initialize()
 
 void Game01Pong::ProcessInput()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-		case SDL_EVENT_QUIT:
-			mIsRunning = false;
-			break;
-		}
-	}
-	int numKeys;
-	const bool* state = SDL_GetKeyboardState(&numKeys);
-	if (state[SDL_SCANCODE_ESCAPE])
-	{
-		mIsRunning = false;
-	}
+	
 	mPaddleDir = 0;
 	mPaddle2Dir = 0;
-	if (state[SDL_SCANCODE_W])
+	if (SDL_Input[SDL_SCANCODE_W])
 	{
 		mPaddleDir -= 1;
 	}
-	if (state[SDL_SCANCODE_S])
+	if (SDL_Input[SDL_SCANCODE_S])
 	{
 		mPaddleDir += 1;
 	}
-	if (state[SDL_SCANCODE_UP])
+	if (SDL_Input[SDL_SCANCODE_UP])
 	{
 		mPaddle2Dir -= 1;
 	}
-	if (state[SDL_SCANCODE_DOWN])
+	if (SDL_Input[SDL_SCANCODE_DOWN])
 	{
 		mPaddle2Dir += 1;
 
 	}
-
+	
 
 
 }
@@ -147,10 +132,6 @@ void Game01Pong::Update()
 		SDL_Log("Ball Speed Vector:");
 		SDL_Log(mBallVel.toString());
 	}
-
-
-
-
 
 
 }
