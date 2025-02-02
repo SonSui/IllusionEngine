@@ -1,9 +1,13 @@
 #include "IllusionEngine.h"
+
+#define TICKS_PASSED(a, b) ((Sint64)((a) - (b)) >= 0)
+
 GameMain::GameMain()
 	:mWindow(nullptr)
 	, mRenderer(nullptr)
 	, mTicksCount(0)
 	, mIsRunning(true)
+	, mTexture(nullptr)
 {
 
 }
@@ -29,11 +33,12 @@ bool GameMain::EngineInitialize()
 		return false;
 	}
 
-
 	if (InitializeRenderer(mWindow, &mRenderer) == false)
 	{
 		return false;
 	}
+	
+	
 	Initialize();
 
 	return true;
@@ -43,6 +48,10 @@ bool GameMain::EngineInitialize()
 void GameMain::Shutdown()
 {
 	Finalize();
+	while (!mActors.empty())
+	{
+		delete mActors.back();
+	}
 	SDL_DestroyWindow(mWindow);
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyTexture(mTexture);
@@ -53,12 +62,35 @@ void GameMain::RunLoop()
 {
 	while (mIsRunning)
 	{
+		EngineInput();
 		ProcessInput();
 		UpdateGame();
 		GenerateOutput();
 	}
 
 }
+void GameMain::EngineInput()
+{
+	
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_EVENT_QUIT: // 右上の×をクリックしたら、終了
+			mIsRunning = false;
+			break;
+		}
+	}
+	int numKeys;
+	SDL_Input = SDL_GetKeyboardState(&numKeys);
+	if (SDL_Input[SDL_SCANCODE_ESCAPE]) // ESCで終了
+	{
+		mIsRunning = false;
+	}
+}
+
+
 void GameMain::UpdateGame()
 {
 	while (!TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));//16msを待つ
@@ -70,6 +102,32 @@ void GameMain::UpdateGame()
 		deltaTime = 0.05f;
 	}
 	mTicksCount = SDL_GetTicks();
+	mUpdatingActors = true;
+	for (auto actor : mActors)
+	{
+		actor->Update(deltaTime);
+	}
+	mUpdatingActors = false;
+
+	for (auto pending : mPendingActors)
+	{
+		mActors.emplace_back(pending);
+	}
+	mPendingActors.clear();
+
+	std::vector<Actor*> deadActors;
+	for (auto actor : mActors)
+	{
+		if (actor->GetState() == Actor::EDead)
+		{
+			deadActors.emplace_back(actor);
+		}
+	}
+	for (auto actor : deadActors)
+	{
+		delete actor;
+	}
+
 	Update();
 }
 
@@ -121,6 +179,18 @@ bool GameMain::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRendere
 	}
 
 	return true;
+}
+
+void GameMain::AddActor(Actor* actor)
+{
+	if (mUpdatingActors)
+	{
+		mPendingActors.emplace_back(actor);
+	}
+	else
+	{
+		mActors.emplace_back(actor);
+	}
 }
 
 void GameMain::Initialize()
