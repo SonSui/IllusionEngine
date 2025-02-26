@@ -11,6 +11,7 @@ public:
 	};
 
 	Actor(class GameMain* game);
+
 	virtual ~Actor();
 
 
@@ -26,6 +27,10 @@ public:
 	// Component’Ç‰Á
 	void AddComponent(class Component* component);
 	void RemoveComponent(class Component* component);
+
+	float GetScale() { return mScale; }
+	Vector2 GetPosition() { return mPosition; }
+	float GetRotation() { return mRotation; }
 private:
 	State mState;
 
@@ -33,7 +38,7 @@ private:
 
 
 	float mScale;
-	float mRotation;
+	float mRotation; 
 
 	std::vector<class Component*> mComponents;
 	class GameMain* mGame;

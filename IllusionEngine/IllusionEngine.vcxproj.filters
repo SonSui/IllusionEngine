@@ -16,6 +16,12 @@
     <Filter Include="Game">
       <UniqueIdentifier>{4e04f65c-f8c2-4c50-bdf8-f369c1caedb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game02Space">
+      <UniqueIdentifier>{789cd7cc-7aa8-42e2-b163-f68d2d035cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game01Pong">
+      <UniqueIdentifier>{4988ba04-d2d3-4c46-9683-5074b1d196a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -30,11 +36,26 @@
     <ClInclude Include="Component.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game01Pong.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="IMath.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Render2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimSpriteComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BGSpriteComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>Game\Game02Space</Filter>
+    </ClInclude>
+    <ClInclude Include="Game01Pong.h">
+      <Filter>Game\Game01Pong</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,11 +71,32 @@
     <ClCompile Include="Component.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game01Pong.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Render2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="IMath.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimSpriteCompinent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BGSpriteComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game02Space.cpp">
+      <Filter>Game\Game02Space</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>Game\Game02Space</Filter>
+    </ClCompile>
+    <ClCompile Include="Game01Pong.cpp">
+      <Filter>Game\Game01Pong</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,6 +4,10 @@
 #include <iostream>
 #include <cstdio>
 #include <unordered_set>
+
+#ifndef Math_PI
+#define Math_PI 3.14159265358979323846
+#endif
 struct Vector2
 {
 	float x;
@@ -50,4 +54,9 @@ struct Vector2
 		std::snprintf(buffer, sizeof(buffer), format, x, y);
 		return buffer;
 	}
+};
+class IMath {
+public:
+	
+	double static ToDegrees(double radian);
 };

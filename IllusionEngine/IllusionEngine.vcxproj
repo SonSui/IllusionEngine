@@ -138,19 +138,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AnimSpriteComponent.h" />
+    <ClInclude Include="BGSpriteComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Game01Pong.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IllusionEngine.h" />
     <ClInclude Include="IMath.h" />
+    <ClInclude Include="Render2D.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="SpriteComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AnimSpriteCompinent.cpp" />
+    <ClCompile Include="BGSpriteComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game01Pong.cpp" />
+    <ClCompile Include="Game02Space.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IllusionEngine.cpp" />
+    <ClCompile Include="IMath.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Render2D.cpp" />
+    <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

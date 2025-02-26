@@ -1,5 +1,6 @@
 #pragma once
 #include "IllusionEngine.h"
+
 class Component
 {
 public:
@@ -12,6 +13,7 @@ public:
 	int GetUpdateOrder() const { return mUpdateOrder; }
 protected:
 	class Actor* mOwner;
+	// XV‡
 	int mUpdateOrder;
 };
 
