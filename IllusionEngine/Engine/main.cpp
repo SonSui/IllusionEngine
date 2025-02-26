@@ -1,5 +1,4 @@
-
-#include "Game01Pong.h"
+#include "GameFile/Game01Pong/Game01Pong.h"
 
 int main()
 {

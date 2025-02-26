@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)GameFile\Game01Pong;$(ProjectDir)Engine;$(SolutionDir)IllusionEngine;$(SolutionDir)SDL3-3.2.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine;$(SolutionDir)IllusionEngine;$(SolutionDir)SDL3-3.2.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL3-3.2.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -147,6 +147,7 @@
     <ClInclude Include="Engine\Render2D.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
     <ClInclude Include="GameFile\Game01Pong\Game01Pong.h" />
+    <ClInclude Include="GameFile\Game02Space\Game02Space.h" />
     <ClInclude Include="GameFile\Game02Space\Ship.h" />
   </ItemGroup>
   <ItemGroup>

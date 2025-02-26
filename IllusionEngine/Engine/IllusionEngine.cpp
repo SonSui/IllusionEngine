@@ -11,10 +11,11 @@ GameMain::GameMain()
 	, mIsRunning(true)
 	, mTexture(nullptr)
 {
-
+	
 }
 bool GameMain::EngineInitialize()
 {
+	EnginePreSetting();
 	bool sdlResult = SDL_Init(SDL_INIT_VIDEO);
 	if (!sdlResult)
 	{
@@ -22,10 +23,26 @@ bool GameMain::EngineInitialize()
 		return false;
 	}
 
+	std::string title = mWindowName;
+	Vector2 size = mWindowSize;
+
+	
+
+	if (size.normalized() == 0)
+	{
+		// デフォルトサイズ
+		mWindowSize.x = 1024;
+		mWindowSize.y = 768;
+	}
+	if (title.empty())
+	{
+		// デフォルトタイトル
+		title = "Illusion Engine";
+	}
 	mWindow = SDL_CreateWindow(
-		"Illusion Engine", // タイトル
-		1024,	// 幅
-		768,	// 高さ
+		title.c_str(), // タイトル
+		(int)mWindowSize.x,	// 幅
+		(int)mWindowSize.y,	// 高さ
 		0		// フラグ
 	);
 
@@ -211,27 +228,47 @@ void GameMain::AddSprite(SpriteComponent* sprite)
 	mSprites.insert(iter, sprite);
 }
 
-
-
-
-
-void GameMain::Initialize()
+SDL_Texture* GameMain::GetTexture(const std::string& fileName)
 {
+	SDL_Texture* text = nullptr;
+	
+	auto iter = mTextures.find(fileName);
 
+	if (iter != mTextures.end()) // 既に存在しているのテクスチャーは読み込まない
+	{
+		text = iter->second;
+	}
+	else
+	{
+		SDL_Surface* surf = IMG_Load(fileName.c_str());
+		if (!surf)
+		{
+			SDL_Log("Failed to load texture file %s", fileName);
+			return nullptr;
+		}
+		else
+		{
+			SDL_Texture* text = SDL_CreateTextureFromSurface(mRenderer, surf);
+			SDL_DestroySurface(surf);
+			if (!text)
+			{
+				SDL_Log("Failed to convert to texture for %s", fileName);
+				return nullptr;
+			}
+		}
+	}
+	return text;
 }
-void GameMain::ProcessInput()
-{
 
-}
-void GameMain::Update()
-{
 
-}
-void GameMain::GenerateOutput()
-{
 
-}
-void GameMain::Finalize()
-{
 
-}
+
+void GameMain::EnginePreSetting() {}
+
+void GameMain::Initialize(){}
+void GameMain::ProcessInput(){}
+void GameMain::Update(){}
+void GameMain::GenerateOutput(){}
+void GameMain::Finalize(){}
+

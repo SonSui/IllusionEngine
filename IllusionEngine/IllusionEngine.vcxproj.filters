@@ -24,79 +24,82 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h">
+    <ClInclude Include="Engine\Actor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="IllusionEngine.h">
+    <ClInclude Include="Engine\AnimSpriteComponent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="Engine\BGSpriteComponent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Engine\Component.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="IMath.h">
+    <ClInclude Include="Engine\GameObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Render2D.h">
+    <ClInclude Include="Engine\IllusionEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
+    <ClInclude Include="Engine\IMath.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="AnimSpriteComponent.h">
+    <ClInclude Include="Engine\Render2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BGSpriteComponent.h">
+    <ClInclude Include="Engine\SpriteComponent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
+    <ClInclude Include="GameFile\Game02Space\Ship.h">
       <Filter>Game\Game02Space</Filter>
     </ClInclude>
-    <ClInclude Include="Game01Pong.h">
+    <ClInclude Include="GameFile\Game01Pong\Game01Pong.h">
       <Filter>Game\Game01Pong</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFile\Game02Space\Game02Space.h">
+      <Filter>Game\Game02Space</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Engine\Actor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="IllusionEngine.cpp">
+    <ClCompile Include="Engine\AnimSpriteCompinent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="Engine\BGSpriteComponent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
+    <ClCompile Include="Engine\Component.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
+    <ClCompile Include="Engine\GameObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Render2D.cpp">
+    <ClCompile Include="Engine\IllusionEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteComponent.cpp">
+    <ClCompile Include="Engine\IMath.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="IMath.cpp">
+    <ClCompile Include="Engine\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="AnimSpriteCompinent.cpp">
+    <ClCompile Include="Engine\Render2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BGSpriteComponent.cpp">
+    <ClCompile Include="Engine\SpriteComponent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game02Space.cpp">
-      <Filter>Game\Game02Space</Filter>
-    </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Game\Game02Space</Filter>
-    </ClCompile>
-    <ClCompile Include="Game01Pong.cpp">
+    <ClCompile Include="GameFile\Game01Pong\Game01Pong.cpp">
       <Filter>Game\Game01Pong</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFile\Game02Space\Game02Space.cpp">
+      <Filter>Game\Game02Space</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFile\Game02Space\Ship.cpp">
+      <Filter>Game\Game02Space</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

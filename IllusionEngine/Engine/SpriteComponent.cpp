@@ -22,17 +22,6 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 		r.x = static_cast<float>(mOwner->GetPosition().x - r.w / 2);
 		r.y = static_cast<float>(mOwner->GetPosition().y - r.h / 2);
 
-		/*SDL_RenderCopyEx(
-			renderer,
-			mTexture,
-			nullptr,
-			&r,
-			0,
-			nullptr,
-			SDL_FLIP_NONE
-		);*/
-
-		
 		SDL_FPoint center = { r.w / 2, r.h / 2 };  // 回転中心（例として矩形の中心）
 		SDL_FlipMode flip = SDL_FLIP_NONE; // フリップモード（必要に応じて設定）
 

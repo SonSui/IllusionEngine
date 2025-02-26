@@ -1,6 +1,14 @@
 #pragma once
 #include "IllusionEngine.h"
-class Game01Pong :public GameMain {
+#include "GameFile/Game02Space/Ship.h"
+
+#define _WINDOW_HEIGHT 768.0
+#define _WINDOW_WIDTH 1024.0
+#define _WINDOW_NAME "Game02Space_IllusionEngine"
+
+class Game02Space :public GameMain {
+
+
 	virtual void EnginePreSetting() override;
 	// Game‰Šú‰»/I—¹ˆ—
 	virtual void Initialize() override;
