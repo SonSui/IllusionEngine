@@ -1,5 +1,11 @@
 #include "Game01Pong.h"
 
+#define _WINDOW_HEIGHT 768.0
+#define _WINDOW_WIDTH 1024.0
+#define _BALL_RANDOM_MIN 150
+#define _BALL_RANDOM_MAX 300
+
+
 const int thickness = 15;
 const float paddleH = 100.0f;
 const float moveSpeed = 300.0f;
@@ -7,7 +13,7 @@ const float moveSpeed = 300.0f;
 void Game01Pong::Initialize()
 {
 	
-	mTexture = IMG_LoadTexture(mRenderer, "Background.png");
+	mTexture = IMG_LoadTexture(mRenderer, "GameFile/Game01Pong/Assets/Background_Game01.png");
 
 	if (!mTexture)
 	{
@@ -15,12 +21,12 @@ void Game01Pong::Initialize()
 	}
 
 	mPaddlePos.x = 10.0f;
-	mPaddlePos.y = 768.0f / 2.0f;
-	mPaddle2Pos.x = 1024.0f - 10.0f;
-	mPaddle2Pos.y = 768.0f / 2.0f;
+	mPaddlePos.y = _WINDOW_HEIGHT / 2.0f;
+	mPaddle2Pos.x = _WINDOW_WIDTH - 10.0f;
+	mPaddle2Pos.y = _WINDOW_HEIGHT / 2.0f;
 
-	mBallPos.x = 1024.0f / 2.0f;
-	mBallPos.y = 768.0f / 2.0f;
+	mBallPos.x = _WINDOW_WIDTH / 2.0f;
+	mBallPos.y = _WINDOW_HEIGHT / 2.0f;
 	mBallVel.x = -200.0f;
 	mBallVel.y = 235.0f;
 
@@ -65,7 +71,7 @@ void Game01Pong::Update()
 	{
 		mPaddlePos.y += mPaddleDir * moveSpeed * deltaTime;
 		if (mPaddlePos.y < (paddleH / 2.0f + thickness))mPaddlePos.y = (paddleH / 2.0f + thickness);
-		else if (mPaddlePos.y > (768.0f - paddleH / 2.0f - thickness))mPaddlePos.y = (768.0f - paddleH / 2.0f - thickness);
+		else if (mPaddlePos.y > (_WINDOW_HEIGHT - paddleH / 2.0f - thickness))mPaddlePos.y = (_WINDOW_HEIGHT - paddleH / 2.0f - thickness);
 	}
 
 	// player2　移動処理
@@ -73,7 +79,7 @@ void Game01Pong::Update()
 	{
 		mPaddle2Pos.y += mPaddle2Dir * moveSpeed * deltaTime;
 		if (mPaddle2Pos.y < (paddleH / 2.0f + thickness))mPaddle2Pos.y = (paddleH / 2.0f + thickness);
-		else if (mPaddle2Pos.y > (768.0f - paddleH / 2.0f - thickness))mPaddle2Pos.y = (768.0f - paddleH / 2.0f - thickness);
+		else if (mPaddle2Pos.y > (_WINDOW_HEIGHT - paddleH / 2.0f - thickness))mPaddle2Pos.y = (_WINDOW_HEIGHT - paddleH / 2.0f - thickness);
 	}
 
 	// 玉の移動
@@ -89,12 +95,12 @@ void Game01Pong::Update()
 	// 画面から消えたら、逆方向にランダム速度で再発射
 	if (mBallPos.x < -10.0f || mBallPos.x > 1034.0f)
 	{
-		mBallPos.x = 1024.0f / 2.0f;
-		mBallPos.y = 768.0f / 2.0f;
+		mBallPos.x = _WINDOW_WIDTH / 2.0f;
+		mBallPos.y = _WINDOW_HEIGHT / 2.0f;
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		std::uniform_int_distribution<int> dist(150, 300);
+		std::uniform_int_distribution<int> dist(_BALL_RANDOM_MIN, _BALL_RANDOM_MAX);
 
 		int vx = dist(gen);
 		int vy = dist(gen);
@@ -124,7 +130,7 @@ void Game01Pong::Update()
 	// player2　衝突判定
 	float diff_player2 = fabs(mPaddle2Pos.y - mBallPos.y);
 	if (diff_player2 <= paddleH / 2.0f &&
-		mBallPos.x >= 999.0f && mBallPos.x <= 1019.0f &&
+		mBallPos.x >= _WINDOW_WIDTH -25.0f && mBallPos.x <= _WINDOW_WIDTH - 5.0f &&
 		mBallVel.x > 0.0f
 		)
 	{
@@ -141,7 +147,7 @@ void Game01Pong::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 0, 0, 255, 255);
 	SDL_RenderClear(mRenderer);
 
-	SDL_FRect draw = { 0,0,1024,768 };
+	SDL_FRect draw = { 0,0,_WINDOW_WIDTH,_WINDOW_HEIGHT };
 
 	SDL_RenderTexture(mRenderer, mTexture, NULL, &draw);
 

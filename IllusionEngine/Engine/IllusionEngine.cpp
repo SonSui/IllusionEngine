@@ -1,4 +1,6 @@
 #include "IllusionEngine.h"
+#include "SpriteComponent.h"
+
 
 #define TICKS_PASSED(a, b) ((Sint64)((a) - (b)) >= 0)
 
@@ -192,6 +194,26 @@ void GameMain::AddActor(Actor* actor)
 		mActors.emplace_back(actor);
 	}
 }
+
+void GameMain::AddSprite(SpriteComponent* sprite)
+{
+	int myDrawOrder = sprite->GetDrawOrder();
+	auto iter = mSprites.begin();
+
+	for (; iter != mSprites.end(); iter++)
+	{
+		if (myDrawOrder < (*iter)->GetDrawOrder())
+		{
+			break;
+		}
+	}
+
+	mSprites.insert(iter, sprite);
+}
+
+
+
+
 
 void GameMain::Initialize()
 {

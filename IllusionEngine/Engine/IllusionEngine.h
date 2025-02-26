@@ -4,6 +4,16 @@
 #include "IMath.h"
 #include "Component.h"
 #include "Actor.h"
+#include <vector>
+#include <algorithm>
+
+
+
+
+
+
+
+class SpriteComponent;
 
 class GameMain {
 
@@ -33,6 +43,8 @@ protected:
 	virtual void Update();
 	virtual void GenerateOutput();
 
+	
+
 	// ゲームのウィンド
 	SDL_Window* mWindow;
 	// 描画
@@ -41,6 +53,7 @@ protected:
 	SDL_Texture* mTexture;
 	// 開始からの時間
 	Uint32 mTicksCount;
+	
 	
 
 	float deltaTime;
@@ -52,4 +65,8 @@ protected:
 	bool mUpdatingActors;
 	std::vector<Actor*> mActors;
 	std::vector<Actor*> mPendingActors;
+	// 描画順
+	std::vector<SpriteComponent* > mSprites;
+	virtual void AddSprite(SpriteComponent* sprite);
+	
 };

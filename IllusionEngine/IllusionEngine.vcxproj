@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)SDL3-3.2.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)GameFile\Game01Pong;$(ProjectDir)Engine;$(SolutionDir)IllusionEngine;$(SolutionDir)SDL3-3.2.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)SDL3-3.2.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -137,20 +137,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Game01Pong.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="IllusionEngine.h" />
-    <ClInclude Include="IMath.h" />
+    <ClInclude Include="Engine\Actor.h" />
+    <ClInclude Include="Engine\AnimSpriteComponent.h" />
+    <ClInclude Include="Engine\BGSpriteComponent.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\IllusionEngine.h" />
+    <ClInclude Include="Engine\IMath.h" />
+    <ClInclude Include="Engine\Render2D.h" />
+    <ClInclude Include="Engine\SpriteComponent.h" />
+    <ClInclude Include="GameFile\Game01Pong\Game01Pong.h" />
+    <ClInclude Include="GameFile\Game02Space\Ship.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Game01Pong.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="IllusionEngine.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Actor.cpp" />
+    <ClCompile Include="Engine\AnimSpriteCompinent.cpp" />
+    <ClCompile Include="Engine\BGSpriteComponent.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\IllusionEngine.cpp" />
+    <ClCompile Include="Engine\IMath.cpp" />
+    <ClCompile Include="Engine\main.cpp" />
+    <ClCompile Include="Engine\Render2D.cpp" />
+    <ClCompile Include="Engine\SpriteComponent.cpp" />
+    <ClCompile Include="GameFile\Game01Pong\Game01Pong.cpp" />
+    <ClCompile Include="GameFile\Game02Space\Game02Space.cpp" />
+    <ClCompile Include="GameFile\Game02Space\Ship.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
