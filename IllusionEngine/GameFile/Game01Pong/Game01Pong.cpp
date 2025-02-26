@@ -13,7 +13,7 @@ const float moveSpeed = 300.0f;
 void Game01Pong::Initialize()
 {
 	
-	mTexture = IMG_LoadTexture(mRenderer, "Background_Game01.png");
+	mTexture = IMG_LoadTexture(mRenderer, "GameFile/Game01Pong/Assets/Background_Game01.png");
 
 	if (!mTexture)
 	{
