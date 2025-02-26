@@ -15,7 +15,10 @@ GameMain::GameMain()
 }
 bool GameMain::EngineInitialize()
 {
+	// Gameによる設定
 	EnginePreSetting();
+
+	// 初期化
 	bool sdlResult = SDL_Init(SDL_INIT_VIDEO);
 	if (!sdlResult)
 	{
@@ -23,10 +26,9 @@ bool GameMain::EngineInitialize()
 		return false;
 	}
 
+	// ウィンドウズ初期化
 	std::string title = mWindowName;
 	Vector2 size = mWindowSize;
-
-	
 
 	if (size.normalized() == 0)
 	{
@@ -45,13 +47,13 @@ bool GameMain::EngineInitialize()
 		(int)mWindowSize.y,	// 高さ
 		0		// フラグ
 	);
-
 	if (!mWindow)
 	{
 		SDL_Log("SDL Window create failed : %s", SDL_GetError());
 		return false;
 	}
 
+	// 描画Render初期化
 	if (InitializeRenderer(mWindow, &mRenderer) == false)
 	{
 		return false;
@@ -128,8 +130,9 @@ void GameMain::UpdateGame()
 	}
 	mUpdatingActors = false;
 
-	for (auto pending : mPendingActors)
+	for (auto pending : mPendingActors) 
 	{
+		//今回のActor更新完了前に待ち、次回の更新に新しいActorを追加
 		mActors.emplace_back(pending);
 	}
 	mPendingActors.clear();
@@ -211,12 +214,31 @@ void GameMain::AddActor(Actor* actor)
 		mActors.emplace_back(actor);
 	}
 }
+void GameMain::RemoveActor(Actor* actor)
+{
+	// 
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+	if (iter != mPendingActors.end())//待ち配列の場合
+	{
+		// 最後のエレメントと交換して、削除
+		std::iter_swap(iter, mPendingActors.end() - 1);
+		mPendingActors.pop_back();
+	}
+	
+	iter = std::find(mActors.begin(), mActors.end(), actor);
+	if (iter != mActors.end())//普通の場合
+	{
+		// 最後のエレメントと交換して、削除
+		std::iter_swap(iter, mActors.end() - 1);
+		mActors.pop_back();
+	}
+}
 
 void GameMain::AddSprite(SpriteComponent* sprite)
 {
 	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
-
+	// 描画更新順位に合わせて挿入
 	for (; iter != mSprites.end(); iter++)
 	{
 		if (myDrawOrder < (*iter)->GetDrawOrder())
@@ -224,7 +246,6 @@ void GameMain::AddSprite(SpriteComponent* sprite)
 			break;
 		}
 	}
-
 	mSprites.insert(iter, sprite);
 }
 

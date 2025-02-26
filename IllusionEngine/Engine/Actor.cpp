@@ -1,12 +1,17 @@
 #include "Actor.h"
 
-Actor::Actor(GameMain* game)
+Actor::Actor(GameMain* game) :mState(EActive)
+, mPosition(Vector2::Zero)
+, mScale(1.0f)
+, mRotation(0.0f)
+, mGame(game)
 {
-    mGame = game;
+	mGame->AddActor(this);
 }
 
 Actor::~Actor()
 {
+    
 }
 
 

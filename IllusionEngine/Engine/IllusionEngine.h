@@ -30,6 +30,7 @@ public:
 
 	
 	void AddActor(Actor* actor);
+	void RemoveActor(Actor* actor);
 	void AddSprite(SpriteComponent* sprite);
 	SDL_Texture* GetTexture(const std::string& fileName);
 

@@ -118,6 +118,8 @@ void Game01Pong::Update()
 		else mBallVel.x = 1.0f * vx;
 		if (mBallVel.y > 0)mBallVel.y = -1.0f * vy;
 		else mBallVel.y = -1.0f * vy;
+
+		SDL_Log(mBallVel.toString());
 	}
 
 	// ã Ç™èôÅXÇ…ë¨Ç≠Ç»ÇÈ
