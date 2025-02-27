@@ -1,6 +1,8 @@
 #include "BGSpriteComponent.h"
 
-BGSpriteComponent::BGSpriteComponent(class Actor* owner, int drawOrder) : SpriteComponent(owner, drawOrder)
+BGSpriteComponent::BGSpriteComponent(class Actor* owner, int drawOrder) : 
+	SpriteComponent(owner, drawOrder)
+	, mScrollSpeed(0.0f)
 {
 
 }
@@ -17,6 +19,7 @@ void BGSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)
 		temp.mOffset.y = 0;
 		mBGTextures.emplace_back(temp);
 		count++;
+		
 	}
 }
 
@@ -36,5 +39,18 @@ void BGSpriteComponent::Update(float deltaTime)
 
 void BGSpriteComponent::Draw(SDL_Renderer* renderer)
 {
-	// –¢ŽÀ‘•
+	for (auto& bg : mBGTextures)
+	{
+		// ”wŒi‚Ì’†S
+		SDL_FRect r;
+		r.w = mScreenSize.x;
+		r.h = mScreenSize.y;
+		r.x = mOwner->GetPosition().x - r.w / 2 + bg.mOffset.x;
+		r.y = mOwner->GetPosition().y - r.h / 2 + bg.mOffset.y;
+
+		// ”wŒi•`‰æ
+		SDL_RenderTexture(renderer, bg.mTexture, nullptr, &r);
+
+		
+	}
 }

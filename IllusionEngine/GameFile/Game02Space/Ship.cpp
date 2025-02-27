@@ -43,7 +43,24 @@ void Ship::UpdateActor(float deltaTime)
 	SetPosition(pos);
 }
 
-void Ship::PrecessKeyboard(const uint8_t* state)
+void Ship::PrecessKeyboard(const bool* keyboard_Input)
 {
-
+	mRightSpeed = 0.0f;
+	mDownSpeed = 0.0f;
+	if (keyboard_Input[SDL_SCANCODE_W])
+	{
+		mDownSpeed = -500.0f;
+	}
+	if (keyboard_Input[SDL_SCANCODE_S])
+	{
+		mDownSpeed = 500.0f;;
+	}
+	if (keyboard_Input[SDL_SCANCODE_A])
+	{
+		mRightSpeed = -500.0f;
+	}
+	if (keyboard_Input[SDL_SCANCODE_D])
+	{
+		mRightSpeed = 500.0f;
+	}
 }

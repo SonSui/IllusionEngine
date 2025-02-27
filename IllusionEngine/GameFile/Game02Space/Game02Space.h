@@ -1,6 +1,7 @@
 #pragma once
 #include "IllusionEngine.h"
 #include "GameFile/Game02Space/Ship.h"
+#include "BGSpriteComponent.h"
 
 #define _WINDOW_HEIGHT 768.0
 #define _WINDOW_WIDTH 1024.0
@@ -20,14 +21,7 @@ class Game02Space :public GameMain {
 
 	// ゲームオブジェクト
 
-	int mPaddleDir;
-	int mPaddle2Dir;
-
-	Vector2 mPaddlePos;
-	Vector2 mPaddle2Pos;
-
-	Vector2 mBallPos;
-	Vector2 mBallVel;
-
+	Ship* mShip;
+	
 
 };
