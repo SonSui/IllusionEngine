@@ -31,6 +31,10 @@ public:
 	float GetScale() { return mScale; }
 	Vector2 GetPosition() { return mPosition; }
 	float GetRotation() { return mRotation; }
+	void SetPosition(Vector2 pos) { mPosition = pos; }
+	void SetScale(float scale) { mScale = scale; }
+	void SetRotation(float rot) { mRotation = rot; }
+	class GameMain* GetGame() { return mGame; }
 private:
 	State mState;
 

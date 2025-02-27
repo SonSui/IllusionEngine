@@ -11,7 +11,7 @@ SDL_Texture* Render2D::LoadTexture(const char* fileName,SDL_Renderer** render)
 	}
 
 	SDL_Texture* text = SDL_CreateTextureFromSurface(*render, surf);
-
+	SDL_DestroySurface(surf);
 	if (!text)
 	{
 		SDL_Log("Failed to convert to texture for %s", fileName);

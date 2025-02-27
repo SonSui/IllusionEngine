@@ -5,16 +5,23 @@
 #define TICKS_PASSED(a, b) ((Sint64)((a) - (b)) >= 0)
 
 GameMain::GameMain()
-	:mWindow(nullptr)
+	: mWindow(nullptr)
 	, mRenderer(nullptr)
 	, mTicksCount(0)
 	, mIsRunning(true)
 	, mTexture(nullptr)
+	, mWindowSize(0,0)
+	, mWindowName("")
+	
 {
-
+	
 }
 bool GameMain::EngineInitialize()
 {
+	// Gameによる設定
+	EnginePreSetting();
+
+	// 初期化
 	bool sdlResult = SDL_Init(SDL_INIT_VIDEO);
 	if (!sdlResult)
 	{
@@ -22,27 +29,40 @@ bool GameMain::EngineInitialize()
 		return false;
 	}
 
+	// ウィンドウズ初期化
+	std::string title = mWindowName;
+	Vector2 size = mWindowSize;
+
+	if (size.normalized() == 0)
+	{
+		// デフォルトサイズ
+		mWindowSize.x = 1024;
+		mWindowSize.y = 768;
+	}
+	if (title.empty())
+	{
+		// デフォルトタイトル
+		title = "Illusion Engine";
+	}
 	mWindow = SDL_CreateWindow(
-		"Illusion Engine", // タイトル
-		1024,	// 幅
-		768,	// 高さ
+		title.c_str(), // タイトル
+		(int)mWindowSize.x,	// 幅
+		(int)mWindowSize.y,	// 高さ
 		0		// フラグ
 	);
-
 	if (!mWindow)
 	{
 		SDL_Log("SDL Window create failed : %s", SDL_GetError());
 		return false;
 	}
 
+	// 描画Render初期化
 	if (InitializeRenderer(mWindow, &mRenderer) == false)
 	{
 		return false;
 	}
-	
-	
 	Initialize();
-
+	mTicksCount = SDL_GetTicks();
 	return true;
 }
 
@@ -52,11 +72,21 @@ void GameMain::Shutdown()
 	Finalize();
 	while (!mActors.empty())
 	{
-		delete mActors.back();
+		Actor* actor = mActors.back();
+		mActors.pop_back();
+		delete actor;
 	}
-	SDL_DestroyWindow(mWindow);
-	SDL_DestroyRenderer(mRenderer);
-	SDL_DestroyTexture(mTexture);
+	for (auto i : mTextures)
+	{
+		if (i.second)
+		{
+			SDL_DestroyTexture(i.second);
+		}
+	}
+	mTextures.clear();
+	if (mTexture) SDL_DestroyTexture(mTexture);
+	if (mRenderer) SDL_DestroyRenderer(mRenderer);
+	if (mWindow) SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 }
 
@@ -67,6 +97,7 @@ void GameMain::RunLoop()
 		EngineInput();
 		ProcessInput();
 		UpdateGame();
+		EngineRender();
 		GenerateOutput();
 	}
 
@@ -90,6 +121,21 @@ void GameMain::EngineInput()
 	{
 		mIsRunning = false;
 	}
+	
+}
+
+void GameMain::EngineRender()
+{
+	// 2DSprite描画
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(mRenderer);
+
+	for (auto sprite : mSprites)
+	{
+		sprite->Draw(mRenderer);
+	}
+
+	SDL_RenderPresent(mRenderer);
 }
 
 
@@ -111,8 +157,9 @@ void GameMain::UpdateGame()
 	}
 	mUpdatingActors = false;
 
-	for (auto pending : mPendingActors)
+	for (auto pending : mPendingActors) 
 	{
+		//今回のActor更新完了前に待ち、次回の更新に新しいActorを追加
 		mActors.emplace_back(pending);
 	}
 	mPendingActors.clear();
@@ -154,7 +201,9 @@ bool GameMain::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRendere
 			SDL_Log("Error: Cannot get driver name [%d]: %s", i, SDL_GetError());
 		}
 	}
-
+	
+	
+	
 	if (opengl_available) {
 		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl"); // OpenGLを優先的に使用
 		*_mRenderer = SDL_CreateRenderer(_mWindow, "opengl");
@@ -173,6 +222,12 @@ bool GameMain::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRendere
 	if (!*_mRenderer) {
 		SDL_Log("SDL Default Renderer create failed: %s", SDL_GetError());
 		return false;
+	}
+	if (!SDL_SetRenderVSync(*_mRenderer, 1) ) {
+		SDL_Log("Failed to enable VSync: %s", SDL_GetError());
+	}
+	else {
+		SDL_Log("VSync enabled.");
 	}
 	const char* info = SDL_GetRendererName(*_mRenderer);
 	if (info != NULL)
@@ -194,12 +249,31 @@ void GameMain::AddActor(Actor* actor)
 		mActors.emplace_back(actor);
 	}
 }
+void GameMain::RemoveActor(Actor* actor)
+{
+	// 
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+	if (iter != mPendingActors.end())//待ち配列の場合
+	{
+		// 最後のエレメントと交換して、削除
+		std::iter_swap(iter, mPendingActors.end() - 1);
+		mPendingActors.pop_back();
+	}
+	
+	iter = std::find(mActors.begin(), mActors.end(), actor);
+	if (iter != mActors.end())//普通の場合
+	{
+		// 最後のエレメントと交換して、削除
+		std::iter_swap(iter, mActors.end() - 1);
+		mActors.pop_back();
+	}
+}
 
 void GameMain::AddSprite(SpriteComponent* sprite)
 {
 	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
-
+	// 描画更新順位に合わせて挿入
 	for (; iter != mSprites.end(); iter++)
 	{
 		if (myDrawOrder < (*iter)->GetDrawOrder())
@@ -207,31 +281,57 @@ void GameMain::AddSprite(SpriteComponent* sprite)
 			break;
 		}
 	}
-
 	mSprites.insert(iter, sprite);
 }
 
-
-
-
-
-void GameMain::Initialize()
+void GameMain::RemoveSprite(SpriteComponent* sprite)
 {
-
+	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
+	mSprites.erase(iter);
 }
-void GameMain::ProcessInput()
+
+SDL_Texture* GameMain::GetTexture(const std::string& fileName)
 {
+	SDL_Texture* text = nullptr;
+	
+	auto iter = mTextures.find(fileName);
 
+	if (iter != mTextures.end()) // 既に存在しているテクスチャは再読み込みしない
+	{
+		text = iter->second;
+	}
+	else
+	{
+		SDL_Surface* surf = IMG_Load(fileName.c_str());
+		if (!surf)
+		{
+			SDL_Log("Failed to load texture file %s", fileName.c_str());
+			return nullptr;
+		}
+		else
+		{
+			text = SDL_CreateTextureFromSurface(mRenderer, surf);
+			SDL_DestroySurface(surf);
+			if (!text)
+			{
+				SDL_Log("Failed to convert to texture for %s", fileName.c_str());
+				return nullptr;
+			}
+			mTextures.emplace(fileName.c_str(), text);
+		}
+	}
+	return text;
 }
-void GameMain::Update()
-{
 
-}
-void GameMain::GenerateOutput()
-{
 
-}
-void GameMain::Finalize()
-{
 
-}
+
+
+void GameMain::EnginePreSetting() {}
+
+void GameMain::Initialize(){}
+void GameMain::ProcessInput(){}
+void GameMain::Update(){}
+void GameMain::GenerateOutput(){}
+void GameMain::Finalize(){}
+

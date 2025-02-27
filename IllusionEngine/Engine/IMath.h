@@ -54,6 +54,7 @@ struct Vector2
 		std::snprintf(buffer, sizeof(buffer), format, x, y);
 		return buffer;
 	}
+	static const Vector2 Zero;
 };
 class IMath {
 public:

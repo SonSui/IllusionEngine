@@ -10,6 +10,14 @@ const int thickness = 15;
 const float paddleH = 100.0f;
 const float moveSpeed = 300.0f;
 
+void Game01Pong::EnginePreSetting()
+{
+	SDL_Log("Engine resetted in Game01 Pong");
+	std::string name = "Game01Pong_IllusionEngine";
+	SetWindowName(name);
+}
+
+
 void Game01Pong::Initialize()
 {
 	
@@ -110,6 +118,8 @@ void Game01Pong::Update()
 		else mBallVel.x = 1.0f * vx;
 		if (mBallVel.y > 0)mBallVel.y = -1.0f * vy;
 		else mBallVel.y = -1.0f * vy;
+
+		SDL_Log(mBallVel.toString());
 	}
 
 	// ã Ç™èôÅXÇ…ë¨Ç≠Ç»ÇÈ
