@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteComponent.h"
 
+
 class BGSpriteComponent : public SpriteComponent
 {
 public :
@@ -12,7 +13,7 @@ public :
 	void SetScreenSize(const Vector2& size) { mScreenSize = size; }
 	void SetScrollSpeed(float speed) { mScrollSpeed = speed; }
 	float GetScrollSpeed() const { return mScrollSpeed; }
-	
+	virtual uint64_t GetComponentType() { return static_cast<uint64_t>(ComponentType::Sprite); }
 private:
 	struct BGTexture 
 	{

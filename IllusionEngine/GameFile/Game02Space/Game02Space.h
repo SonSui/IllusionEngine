@@ -22,6 +22,4 @@ class Game02Space :public GameMain {
 	// ゲームオブジェクト
 
 	Ship* mShip;
-	
-
 };

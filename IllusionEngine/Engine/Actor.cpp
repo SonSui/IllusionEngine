@@ -5,6 +5,7 @@ Actor::Actor(GameMain* game) :mState(EActive)
 , mScale(1.0f)
 , mRotation(0.0f)
 , mGame(game)
+, mComponentMask(0)
 {
 	mGame->AddActor(this);
 }
@@ -58,8 +59,6 @@ void Actor::AddComponent(class Component* component)
 			break;
 		}
 	}
-
-	
 	mComponents.insert(iter, component);
 }
 
