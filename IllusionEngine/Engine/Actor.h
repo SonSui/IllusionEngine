@@ -40,11 +40,11 @@ private:
 
 	Vector2 mPosition;
 
-
 	float mScale;
 	float mRotation; 
 
 	std::vector<class Component*> mComponents;
+	uint64_t mComponentMask;
 	class GameMain* mGame;
 
 };

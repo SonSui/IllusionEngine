@@ -12,10 +12,11 @@ GameMain::GameMain()
 	, mTexture(nullptr)
 	, mWindowSize(0,0)
 	, mWindowName("")
-	
+	, mUpdatingActors(false)
 {
 	
 }
+
 bool GameMain::EngineInitialize()
 {
 	// Game‚É‚æ‚éİ’è
@@ -66,7 +67,6 @@ bool GameMain::EngineInitialize()
 	return true;
 }
 
-
 void GameMain::Shutdown()
 {
 	Finalize();
@@ -102,6 +102,7 @@ void GameMain::RunLoop()
 	}
 
 }
+
 void GameMain::EngineInput()
 {
 	
@@ -137,7 +138,6 @@ void GameMain::EngineRender()
 
 	SDL_RenderPresent(mRenderer);
 }
-
 
 void GameMain::UpdateGame()
 {
@@ -180,9 +180,14 @@ void GameMain::UpdateGame()
 	Update();
 }
 
-
 bool GameMain::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRenderer)
 {
+	// ƒƒ‚ƒŠƒŠ[ƒN–h‚®
+	if (*_mRenderer) {
+		SDL_DestroyRenderer(*_mRenderer);
+		*_mRenderer = nullptr;
+	}
+
 	int numDrivers = SDL_GetNumRenderDrivers();
 	SDL_Log("Number of Render Drivers: %d\n", numDrivers);
 
@@ -223,6 +228,8 @@ bool GameMain::InitializeRenderer(SDL_Window* _mWindow, SDL_Renderer** _mRendere
 		SDL_Log("SDL Default Renderer create failed: %s", SDL_GetError());
 		return false;
 	}
+
+	// ‚’¼“¯Šú
 	if (!SDL_SetRenderVSync(*_mRenderer, 1) ) {
 		SDL_Log("Failed to enable VSync: %s", SDL_GetError());
 	}
@@ -249,6 +256,7 @@ void GameMain::AddActor(Actor* actor)
 		mActors.emplace_back(actor);
 	}
 }
+
 void GameMain::RemoveActor(Actor* actor)
 {
 	// 
