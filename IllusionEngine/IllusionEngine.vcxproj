@@ -146,6 +146,7 @@
     <ClInclude Include="Engine\IMath.h" />
     <ClInclude Include="Engine\Render2D.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
+    <ClInclude Include="Engine\TileMapComponent.h" />
     <ClInclude Include="GameFile\Game01Pong\Game01Pong.h" />
     <ClInclude Include="GameFile\Game02Space\Game02Space.h" />
     <ClInclude Include="GameFile\Game02Space\Ship.h" />
