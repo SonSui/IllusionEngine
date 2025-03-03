@@ -23,16 +23,24 @@ public:
 	void Shutdown();
 
 
-	
+	// Actor追加
 	void AddActor(Actor* actor);
+	// Actor削除
 	void RemoveActor(Actor* actor);
+	// Sprite追加
 	void AddSprite(SpriteComponent* sprite);
+	// Sprite削除
 	void RemoveSprite(SpriteComponent* sprite);
+	// テクスチャ取得
 	SDL_Texture* GetTexture(const std::string& fileName);
 
+	// ウィンドウサイズ取得
 	Vector2 GetWidowSize() { return mWindowSize; }
+	// ウィンドウサイズ設定
 	void SetWindowSize(Vector2 size) { mWindowSize = size; }
+	// ウィンドウ名取得
 	std::string GetWindowName() { return mWindowName; }
+	// ウィンドウ名設定
 	void SetWindowName(std::string name) { mWindowName = name; };
 	
 private:

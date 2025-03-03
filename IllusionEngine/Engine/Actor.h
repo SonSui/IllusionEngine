@@ -4,14 +4,13 @@
 
 class Actor {
 public:
+	// Actor‚Ìó‘Ô
 	enum State {
 		EActive,
 		EPaused,
 		EDead
 	};
-
 	Actor(class GameMain* game);
-
 	virtual ~Actor();
 
 
@@ -26,25 +25,40 @@ public:
 
 	// Component’Ç‰Á
 	void AddComponent(class Component* component);
+	// Componentíœ
 	void RemoveComponent(class Component* component);
 
-	float GetScale() { return mScale; }
-	Vector2 GetPosition() { return mPosition; }
-	float GetRotation() { return mRotation; }
-	void SetPosition(Vector2 pos) { mPosition = pos; }
+
+
+	// ‘å‚«‚³İ’è
 	void SetScale(float scale) { mScale = scale; }
+	// ‘å‚«‚³æ“¾
+	float GetScale() { return mScale; }
+	// ˆÊ’uİ’è
+	void SetPosition(Vector2 pos) { mPosition = pos; }
+	// ˆÊ’uæ“¾
+	Vector2 GetPosition() { return mPosition; }
+	// ‰ñ“]İ’è
 	void SetRotation(float rot) { mRotation = rot; }
+	// ‰ñ“]æ“¾
+	float GetRotation() { return mRotation; }
+	
+	// ƒQ[ƒ€æ“¾
 	class GameMain* GetGame() { return mGame; }
 private:
+	// Actor‚Ìó‘Ô
 	State mState;
-
+	// ˆÊ’u
 	Vector2 mPosition;
-
+	// ‘å‚«‚³
 	float mScale;
+	// ‰ñ“]
 	float mRotation; 
 
+	// Component
 	std::vector<class Component*> mComponents;
+	// Component‚Ìí—Ş
 	uint64_t mComponentMask;
+	// ƒQ[ƒ€
 	class GameMain* mGame;
-
 };
