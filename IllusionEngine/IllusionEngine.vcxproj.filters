@@ -36,9 +36,6 @@
     <ClInclude Include="Engine\Component.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\IllusionEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -63,6 +60,9 @@
     <ClInclude Include="Engine\TileMapComponent.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="GameFile\Game03TileMapTest\Game03TileMapTest.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Actor.cpp">
@@ -75,9 +75,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\IllusionEngine.cpp">
@@ -103,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="GameFile\Game02Space\Ship.cpp">
       <Filter>Game\Game02Space</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TileMapComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFile\Game03TileMapTest\Game03TileMapTest.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

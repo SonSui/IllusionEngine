@@ -6,6 +6,10 @@ BGSpriteComponent::BGSpriteComponent(class Actor* owner, int drawOrder) :
 {
 
 }
+BGSpriteComponent::~BGSpriteComponent()
+{
+
+}
 
 void BGSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)
 {

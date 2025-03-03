@@ -28,19 +28,21 @@ struct Vector2
 	{
 		return (x == other.x) && (y == other.y);
 	}
-
+	// 長さ
 	float length() const
 	{
 		return std::sqrt(x * x + y * y);
 	}
 
-
+	// 単位ベクトル
 	Vector2 normalized() const {
 		float len = length();
-		if (len == 0) return Vector2(0, 0);
-		return Vector2(x / len, y / len);
+		if (len < std::numeric_limits<float>::epsilon()) return Vector2(0, 0);
+		float invLen = 1.0f / len;
+		return Vector2(x * invLen, y * invLen);
 	}
 
+	// char に変換 decは小数点以下の桁数
 	const char* toString(unsigned int dec = 2)
 	{
 		static char buffer[50];
@@ -54,6 +56,7 @@ struct Vector2
 		std::snprintf(buffer, sizeof(buffer), format, x, y);
 		return buffer;
 	}
+	// 0ベクトル
 	static const Vector2 Zero;
 };
 class IMath {
