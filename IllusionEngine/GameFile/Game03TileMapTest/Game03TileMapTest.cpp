@@ -1,6 +1,6 @@
 ﻿#include "Game03TileMapTest.h"
 
-#define TILEMAP_TEXTURE "GameFile/Game03TileMapTest/Assets/Tiles.png"
+#define TILEMAP_TEXTURE "GameFile/Game03TileMapTest/Assets/Tileset.png"
 
 // エンジン事前設定
 void Game03TileMapTest::EnginePreSetting()
