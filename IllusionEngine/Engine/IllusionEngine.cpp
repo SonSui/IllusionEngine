@@ -310,6 +310,7 @@ SDL_Texture* GameMain::GetTexture(const std::string& fileName)
 	}
 	else
 	{
+		
 		SDL_Surface* surf = IMG_Load(fileName.c_str());
 		if (!surf)
 		{

@@ -26,6 +26,10 @@ public:
 
     // 特定のタイルの描画情報を取得
     const SDL_FRect& GetTileRect(int index) const;
+	// デフォルトのタイルの描画情報を取得
+    const SDL_FRect& GetDefaultTileRect() const;
+	// デフォルトのタイル番号を設定
+	void SetDefaultTileNum(int num) { defaultTileNum = num; }
 
     // タイルの描画情報のリストを取得
     const std::vector<SDL_FRect>& GetTileRects() const { return mTileRects; }
@@ -48,4 +52,5 @@ private:
     // テクスチャの幅と高さ
     float mTextureWidth;
     float mTextureHeight;
+    int defaultTileNum;
 };

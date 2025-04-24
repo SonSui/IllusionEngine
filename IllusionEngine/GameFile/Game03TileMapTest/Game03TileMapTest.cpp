@@ -14,7 +14,7 @@ void Game03TileMapTest::Initialize()
 {
     Actor* temp = new Actor(this);
     // タイルマップコンポーネントを作成
-    mTileMap = new TileMapComponent(temp, 100);
+    //mTileMap = new TileMapComponent(temp, 100);
 
     // タイルシートテクスチャを読み込む
     SDL_Texture* tileSheet = GetTexture(TILEMAP_TEXTURE);
@@ -31,7 +31,7 @@ void Game03TileMapTest::Initialize()
         {2, 3, 3, 3, 2, 3, 3, 4},
         {5, 8, 8, 8, 8, 8, 8, 9}
     };
-    mTileMap->LoadTileMap(mapData);
+    //mTileMap->LoadTileMap(mapData);
 
     // 第2レイヤー（装飾レイヤー）を追加
     std::vector<std::vector<int>> decorLayer(5, std::vector<int>(8, -1)); // 全体を初期化（-1で空）

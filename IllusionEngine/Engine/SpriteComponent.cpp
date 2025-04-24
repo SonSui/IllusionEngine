@@ -7,6 +7,7 @@ SpriteComponent::SpriteComponent(class Actor* owner, int drawOrder) :  Component
 , mDrawOrder(drawOrder)
 , mTexWidth(0)
 , mTexHeight(0)
+, isSplitTexture(false)
 {
 	mOwner->GetGame()->AddSprite(this);
 }
@@ -17,7 +18,7 @@ SpriteComponent::~SpriteComponent()
 }
 void SpriteComponent::Draw(SDL_Renderer* renderer)
 {
-    if (mTexture)
+    if (!isSplitTexture&&mTexture)
     {
         SDL_FRect dstRect;
         dstRect.w = static_cast<float>(mTexWidth * mOwner->GetScale());
@@ -33,6 +34,18 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
             SDL_Log("SDL_RenderTextureRotated failed: %s", SDL_GetError());
         }
     }
+    else if (isSplitTexture && mTextureSplitter)
+    {
+        SDL_FRect dstRect;
+        dstRect = mTextureSplitter->GetDefaultTileRect();
+        SDL_FPoint center = { dstRect.w / 2, dstRect.h / 2 };
+        SDL_FlipMode flip = SDL_FLIP_NONE;
+
+        if (!SDL_RenderTextureRotated(renderer, mTextureSplitter->GetSourceTexture(), nullptr, &dstRect, -IMath::ToDegrees(mOwner->GetRotation()), &center, flip))
+        {
+            SDL_Log("SDL_RenderTextureRotated failed: %s", SDL_GetError());
+        }
+    }
 }
 
 void SpriteComponent::SetTexture(SDL_Texture* texture)
@@ -40,6 +53,12 @@ void SpriteComponent::SetTexture(SDL_Texture* texture)
 	mTexture = texture;
 	SDL_GetTextureSize(texture, &mTexWidth, &mTexHeight);
 }
+void SpriteComponent::SetTextureSplitter(TextureSplitter* splitter)
+{
+	mTextureSplitter = splitter;
+	isSplitTexture = true;
+}
+
 void SpriteComponent::Update(float dealtime)
 {
 
