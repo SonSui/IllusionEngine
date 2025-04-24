@@ -145,6 +145,7 @@
     <ClInclude Include="Engine\IMath.h" />
     <ClInclude Include="Engine\Render2D.h" />
     <ClInclude Include="Engine\SpriteComponent.h" />
+    <ClInclude Include="Engine\TextureSplitter.h" />
     <ClInclude Include="Engine\TileMapComponent.h" />
     <ClInclude Include="GameFile\Game01Pong\Game01Pong.h" />
     <ClInclude Include="GameFile\Game02Space\Game02Space.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Render2D.cpp" />
     <ClCompile Include="Engine\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\TextureSplitter.cpp" />
     <ClCompile Include="Engine\TileMapComponent.cpp" />
     <ClCompile Include="GameFile\Game01Pong\Game01Pong.cpp" />
     <ClCompile Include="GameFile\Game02Space\Game02Space.cpp" />

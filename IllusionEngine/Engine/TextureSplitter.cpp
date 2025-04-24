@@ -6,6 +6,7 @@ TextureSplitter::TextureSplitter(SDL_Renderer* renderer)
     , mSourceTexture(nullptr)
     , mTextureWidth(0)
     , mTextureHeight(0)
+	, defaultTileNum(0)
 {
 }
 
@@ -28,13 +29,14 @@ bool TextureSplitter::SplitTexture(
     {
         return false;
     }
+    mSourceTexture = sourceTexture;
 
     // ソーステクスチャの情報を取得
 	SDL_GetTextureSize(sourceTexture, &mTextureWidth, &mTextureHeight);
 
     // 前回の分割結果をクリア
     mTileRects.clear();
-    mSourceTexture = sourceTexture;
+    
 
     // 分割可能な列と行を計算
     int columns = (mTextureWidth - offsetX + spacingX) / (tileWidth + spacingX);
@@ -70,4 +72,15 @@ const SDL_FRect& TextureSplitter::GetTileRect(int index) const
         return emptyRect;
     }
     return mTileRects[index];
+}
+const SDL_FRect& TextureSplitter::GetDefaultTileRect() const
+{
+
+    if (defaultTileNum < 0 || defaultTileNum >= static_cast<int>(mTileRects.size()))
+    {
+        // エラーハンドリング：静的な空のSDL_FRectを返す
+        static SDL_FRect emptyRect = { 0, 0, 0, 0 };
+        return emptyRect;
+    }
+    return mTileRects[defaultTileNum];
 }

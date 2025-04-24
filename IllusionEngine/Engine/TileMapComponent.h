@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "SpriteComponent.h"
-#include "TextureSplitter.h"
+//#include "TextureSplitter.h"
 #include <vector>
 #include <string>
 #include <unordered_map>
