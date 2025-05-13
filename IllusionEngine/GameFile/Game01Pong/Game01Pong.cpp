@@ -21,12 +21,12 @@ void Game01Pong::EnginePreSetting()
 void Game01Pong::Initialize()
 {
 	
-	mTexture = IMG_LoadTexture(mRenderer, "GameFile/Game01Pong/Assets/Background_Game01.png");
+	/*mTexture = IMG_LoadTexture(mRenderer, "GameFile/Game01Pong/Assets/Background_Game01.png");
 
 	if (!mTexture)
 	{
 		SDL_Log("SDL Texture create texture failed : %s", SDL_GetError());
-	}
+	}*/
 
 	mPaddlePos.x = 10.0f;
 	mPaddlePos.y = _WINDOW_HEIGHT / 2.0f;

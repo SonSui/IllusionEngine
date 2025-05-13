@@ -1,5 +1,7 @@
 #pragma once
 #include "IllusionEngine.h"
+
+// Componentシステム追加することで、ゲームのソースコードでSTL描画を直接に使うと不安定になる
 class Game01Pong :public GameMain {
 	virtual void EnginePreSetting() override;
 	// Game初期化/終了処理
